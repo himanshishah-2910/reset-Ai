@@ -2,7 +2,5 @@
   "name": "reset-ai",
   "private": true,
   "type": "module",
-  "dependencies": {
-    "openai": "^4.0.0"
-  }
+  "dependencies": {}
 }
