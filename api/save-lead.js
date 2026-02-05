@@ -14,6 +14,7 @@ export default async function handler(req, res) {
 
     const auth = new google.auth.GoogleAuth({
       credentials: {
+        project_id: process.env.GOOGLE_PROJECT_ID,
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
         private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
       },
@@ -23,7 +24,7 @@ export default async function handler(req, res) {
     const sheets = google.sheets({ version: "v4", auth });
 
     await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      spreadsheetId: process.env.SPREADSHEET_ID,
       range: "Sheet1!A:E",
       valueInputOption: "USER_ENTERED",
       requestBody: {
@@ -38,8 +39,8 @@ export default async function handler(req, res) {
     });
 
     return res.status(200).json({ success: true });
-  } catch (err) {
-    console.error("SAVE LEAD ERROR:", err);
-    return res.status(500).json({ error: "Failed to save lead" });
+  } catch (error) {
+    console.error("SAVE LEAD ERROR:", error);
+    return res.status(500).json({ error: "Save lead failed" });
   }
 }
